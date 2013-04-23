@@ -1,6 +1,5 @@
 ## CurrencyRate PHP
 A simple PHP class for converting exchange rate in realtime using Google Currency Converter or European Central Bank.
-Author: Johan Lingvall
 
 ###How to use
 ```php
