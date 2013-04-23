@@ -16,7 +16,7 @@ echo 'Exchange rate Euro to US Dollars: ' . $eur_to_usd;
 ```php
 <?php
 
-$CurrencyRate = new CurrencyRate("ecb"); // Specifying ecb in the construction of the class
+$CurrencyRate = new CurrencyRate("ecb"); // Specify ecb in the construction of the class
 $eur_to_usd = $CurrencyRate->convert("EUR","USD");
 echo 'Exchange rate Euro to US Dollars: ' . $eur_to_usd;
 
@@ -28,7 +28,7 @@ echo 'Exchange rate Euro to US Dollars: ' . $eur_to_usd;
 <?php
 
 $CurrencyRate = new CurrencyRate(); 
-$eur_to_usd = $CurrencyRate->convert("EUR","USD", 9.99); // Specifying the amount as the third argument
+$eur_to_usd = $CurrencyRate->convert("EUR","USD", 9.99); // Specify the amount as the third argument
 echo '9.99 Euro in US Dollars: ' . $eur_to_usd;
 
 ?>
