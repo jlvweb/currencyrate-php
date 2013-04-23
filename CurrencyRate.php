@@ -1,7 +1,7 @@
 <?php
 /* =============================================================
- * JLV CurrencyRate
- * https://github.com/jlvweb/jlv-framework
+ * CurrencyRate PHP
+ * https://github.com/jlvweb/currencyrate-php
  * =============================================================
  * Copyright 2013 Johan Lingvall
  * 
