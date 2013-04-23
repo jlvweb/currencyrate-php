@@ -21,6 +21,7 @@
 class CurrencyRate {
     private $from_code = 'EUR';
     private $to_code = 'USD';
+    private $amount = 1;
     private $source = 'google';
     private $available_sources = array('google', 'ecb');
     private $available_currencies_google = array("AED", "ANG", "ARS", "AUD", "BDT", "BGN", "BHD", "BND", "BOB",
@@ -33,16 +34,21 @@ class CurrencyRate {
     private $available_currencies_ecb = array("USD", "JPY", "BGN", "CZK", "DKK", "EUR", "GBP", "HUF", "LTL", "LVL", "PLN", "RON", "SEK", "CHF", "NOK", 
                                     "HRK", "RUB", "TRY", "AUD", "BRL", "CAD", "CNY", "HKD", "IDR", "ILS", "INR", "KRW", "MXN", "MYR", 
                                     "NZD", "PHP", "SGD", "THB", "ZAR");
-    public function convert($from='', $to='', $source='') {
+    public function __construct($source='google') {
+        if (!empty($source) && in_array($source, $this->available_sources)) {
+            $this->source = $source;
+        }
+    }
+    public function convert($from='', $to='', $amount=1) {
+        if (!empty($amount) && $amount<>1) {
+            $this->amount = (float)$amount;
+        }
         if (strlen($from) == 3 && strlen($to) == 3) {
             if ($from == $to) {
-                return 1;
+                return $this->amount*1;
             }
             $this->from_code = $from;
             $this->to_code = $to;
-            if (!empty($source) && in_array($source, $this->available_sources)) {
-                $this->source = $source;
-            }
             return $this->fetch();
         }
         return 0;
@@ -53,7 +59,7 @@ class CurrencyRate {
             $response = file_get_contents($url);
             if ($response !== false) {
                 $data = $this->convert_google_json($response);
-                return round((float)$data['rhs'],4);
+                return round($this->amount*(float)$data['rhs'],4);
             }
         } else if ($this->source == 'ecb' && in_array($this->from_code, $this->available_currencies_ecb) && in_array($this->to_code, $this->available_currencies_ecb)) {
             $url = "http://www.ecb.int/stats/eurofxref/eurofxref-daily.xml";
@@ -71,7 +77,7 @@ class CurrencyRate {
                 if ($this->from_code == "EUR"){$from_rate = 1;}
                 if ($this->to_code == "EUR"){$to_rate = 1;}
                 
-                return round((1 / (float) $from_rate) * (float) $to_rate, 4);
+                return round($this->amount * (1 / (float)$from_rate) * (float)$to_rate, 4);
             }
         }
         return 0;
